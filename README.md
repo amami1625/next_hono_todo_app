@@ -33,7 +33,15 @@ Next.jsとHonoを使ったシンプルなTodoアプリケーションです。JS
 make install
 ```
 
-### 2. アプリケーションの起動
+### 2. 初回セットアップ
+
+初回起動時は、サンプルデータをコピーします。
+
+```bash
+cp backend/data/todos.example.json backend/data/todos.json
+```
+
+### 3. アプリケーションの起動
 
 ```bash
 make dev

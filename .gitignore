@@ -7,6 +7,9 @@ backend/dist/
 frontend/.next/
 frontend/out/
 
+# Data files
+backend/data/todos.json
+
 # Environment variables
 .env
 .env.local
