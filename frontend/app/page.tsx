@@ -1,89 +1,89 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 type Todo = {
-  id: number
-  title: string
-  completed: boolean
-}
+  id: number;
+  title: string;
+  completed: boolean;
+};
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [newTodoTitle, setNewTodoTitle] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodoTitle, setNewTodoTitle] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const API_URL = 'http://localhost:3001'
+  const API_URL = "http://localhost:3001";
 
   // Todoを取得
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch(`${API_URL}/todos`)
-      const data = await response.json()
-      setTodos(data)
+      const response = await fetch(`${API_URL}/todos`);
+      const data = await response.json();
+      setTodos(data);
     } catch (error) {
-      console.error('Failed to fetch todos:', error)
+      console.error("Failed to fetch todos:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Todoを追加
   const addTodo = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newTodoTitle.trim()) return
+    e.preventDefault();
+    if (!newTodoTitle.trim()) return;
 
     try {
       const response = await fetch(`${API_URL}/todos`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: newTodoTitle })
-      })
-      const newTodo = await response.json()
-      setTodos([...todos, newTodo])
-      setNewTodoTitle('')
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTodoTitle }),
+      });
+      const newTodo = await response.json();
+      setTodos([...todos, newTodo]);
+      setNewTodoTitle("");
     } catch (error) {
-      console.error('Failed to add todo:', error)
+      console.error("Failed to add todo:", error);
     }
-  }
+  };
 
   // Todoの完了状態を切り替え
   const toggleTodo = async (id: number, completed: boolean) => {
     try {
       const response = await fetch(`${API_URL}/todos/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completed: !completed })
-      })
-      const updatedTodo = await response.json()
-      setTodos(todos.map(todo => todo.id === id ? updatedTodo : todo))
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed: !completed }),
+      });
+      const updatedTodo = await response.json();
+      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
     } catch (error) {
-      console.error('Failed to toggle todo:', error)
+      console.error("Failed to toggle todo:", error);
     }
-  }
+  };
 
   // Todoを削除
   const deleteTodo = async (id: number) => {
     try {
       await fetch(`${API_URL}/todos/${id}`, {
-        method: 'DELETE'
-      })
-      setTodos(todos.filter(todo => todo.id !== id))
+        method: "DELETE",
+      });
+      setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error) {
-      console.error('Failed to delete todo:', error)
+      console.error("Failed to delete todo:", error);
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="text-xl">読み込み中...</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -133,8 +133,8 @@ export default function Home() {
                 <span
                   className={`flex-1 text-lg ${
                     todo.completed
-                      ? 'line-through text-gray-400'
-                      : 'text-gray-800'
+                      ? "line-through text-gray-400"
+                      : "text-gray-800"
                   }`}
                 >
                   {todo.title}
@@ -153,11 +153,11 @@ export default function Home() {
         {/* 統計情報 */}
         <div className="mt-8 text-center text-gray-600">
           <p>
-            全{todos.length}件 / 完了{todos.filter(t => t.completed).length}件 /
-            未完了{todos.filter(t => !t.completed).length}件
+            全{todos.length}件 / 完了{todos.filter((t) => t.completed).length}件
+            / 未完了{todos.filter((t) => !t.completed).length}件
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
