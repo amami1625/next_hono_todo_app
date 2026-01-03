@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import type { Todo } from '../types/todo'
-import { readTodos, writeTodos, generateNewId } from '../utils/fileStorage'
+import { readTodos, writeTodos } from '../utils/fileStorage'
+import { v4 as uuidv4 } from 'uuid'
 
 const todos = new Hono()
 
@@ -20,7 +21,7 @@ todos.post('/', async (c) => {
   const allTodos = await readTodos()
 
   const newTodo: Todo = {
-    id: generateNewId(allTodos),
+    id: uuidv4(),
     title,
     completed: false
   }
@@ -35,7 +36,7 @@ todos.post('/', async (c) => {
  * PUT /todos/:id - Todoを更新
  */
 todos.put('/:id', async (c) => {
-  const id = parseInt(c.req.param('id'))
+  const id = c.req.param('id')
   const { title, completed } = await c.req.json()
   const allTodos = await readTodos()
 
@@ -56,7 +57,7 @@ todos.put('/:id', async (c) => {
  * DELETE /todos/:id - Todoを削除
  */
 todos.delete('/:id', async (c) => {
-  const id = parseInt(c.req.param('id'))
+  const id = c.req.param('id')
   const allTodos = await readTodos()
 
   const index = allTodos.findIndex(t => t.id === id)

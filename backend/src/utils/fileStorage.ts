@@ -25,9 +25,3 @@ export async function writeTodos(todos: Todo[]): Promise<void> {
   await fs.writeFile(todosFilePath, JSON.stringify(todos, null, 2))
 }
 
-/**
- * 新しいTodo IDを生成する
- */
-export function generateNewId(todos: Todo[]): number {
-  return todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1
-}
