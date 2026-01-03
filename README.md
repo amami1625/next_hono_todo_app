@@ -8,9 +8,15 @@ Next.jsとHonoを使ったシンプルなTodoアプリケーションです。JS
 .
 ├── backend/          # Hono APIサーバー (ポート: 3001)
 │   ├── src/
-│   │   └── index.ts  # APIエンドポイント
+│   │   ├── index.ts          # メインエントリーポイント
+│   │   ├── routes/
+│   │   │   └── todos.ts      # Todoルート
+│   │   ├── types/
+│   │   │   └── todo.ts       # 型定義
+│   │   └── utils/
+│   │       └── fileStorage.ts # JSONファイル操作
 │   └── data/
-│       └── todos.json # Todoデータ
+│       └── todos.json        # Todoデータ
 │
 ├── frontend/         # Next.jsフロントエンド (ポート: 3000)
 │   └── app/
