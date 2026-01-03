@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 type Todo = {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
 };
@@ -52,7 +52,7 @@ export default function Home() {
   };
 
   // Todoの完了状態を切り替え
-  const toggleTodo = async (id: number, completed: boolean) => {
+  const toggleTodo = async (id: string, completed: boolean) => {
     try {
       const response = await fetch(`${API_URL}/todos/${id}`, {
         method: "PUT",
@@ -67,7 +67,7 @@ export default function Home() {
   };
 
   // Todoを削除
-  const deleteTodo = async (id: number) => {
+  const deleteTodo = async (id: string) => {
     try {
       await fetch(`${API_URL}/todos/${id}`, {
         method: "DELETE",
